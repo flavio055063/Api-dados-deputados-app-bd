@@ -1,0 +1,85 @@
+
+DROP TABLE IF EXISTS public.deputados;
+DROP TABLE IF EXISTS public.dep_redes_social;
+DROP TABLE IF EXISTS public.dep_discursos;
+DROP TABLE IF EXISTS public.partidos;
+DROP TABLE IF EXISTS public.gastos;
+
+CREATE TYPE dep_gabinete AS (
+	nome 		varchar(40),
+	predio		varchar(40),
+	sala		varchar(40),
+	andar		varchar(40),
+	telefone	varchar(40),
+	email		varchar(100)
+);
+
+CREATE TABLE public.deputados(
+	id            		int PRIMARY KEY, 
+    uri           		varchar(100), 
+    nome          		varchar(300), 
+    siglaPartido  		varchar(50), 
+    uriPartido    		varchar(200), 
+    siglaUf       		varchar(10), 
+    idLegislatura 		int, 
+    urlFoto       		varchar(100), 
+    email         		varchar(100),
+	gabinete 	  		dep_gabinete,
+	situacao			varchar(50),
+	condicaoEleitoral 	varchar(50),
+	cpf					varchar(16),
+	sexo				char(1),
+	data_nasc			date,
+	escolaridade		varchar(50)
+);
+
+CREATE TABLE public.dep_redes_social(
+	dep_id			int,
+	rede_social 	varchar(100) UNIQUE,
+	FOREIGN KEY (dep_id) REFERENCES deputados(id)
+);
+
+CREATE TABLE public.dep_discursos(
+	dep_id			int,
+	dataHoraInicio  timestamp,  
+    tipoDiscurso	varchar(200),  
+    keywords		varchar(400),  
+    sumario			varchar(10000),   
+    transcricao		varchar(15000),
+	FOREIGN KEY (dep_id) REFERENCES deputados(id)
+);
+
+CREATE TABLE public.partidos(
+	id_partido 	int PRIMARY KEY,
+	sigla		varchar(30),
+	nome		varchar(120),
+	uripartido	varchar(250),
+	id_lider	int,
+	FOREIGN KEY (id_lider) REFERENCES deputados(id)
+);
+
+CREATE TABLE public.gastos(
+	id_deputado		int,
+	legislatura		int,
+	descricao		varchar(300),
+	fornecedor		varchar(300),
+	cnpjCPF			varchar(20),
+	valorLiquido		numeric,
+	mes				int,
+	ano				int,
+	url_documento	varchar(250),
+	FOREIGN KEY (id_deputado) REFERENCES deputados(id)
+);
+
+CREATE USER usuario_consulta WITH PASSWORD '159753';
+CREATE USER usuario_adm WITH superuser PASSWORD 'senha';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.dep_discursos, public.dep_redes_social, public.deputados, public.gastos, public.partidos TO usuario_adm;
+GRANT SELECT ON public.dep_discursos, public.dep_redes_social, public.deputados, public.gastos, public.partidos TO usuario_consulta;
+
+
+SELECT * FROM deputados;
+SELECT * FROM dep_redes_social;
+SELECT * FROM dep_discursos;
+SELECT * FROM partidos;
+SELECT * FROM gastos;
