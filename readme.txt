@@ -1,6 +1,8 @@
 para rodar o código em python, primeiro é necessário criar o banco de dados com o postgres (conforme o arquivo .sql disponibilizado)
 
-Depois, é só executar o main.py e popular o banco de dados (para popular a tabela gastos, vc precisa obter o json)
+Depois, é só executar o main.py e popular o banco de dados (para popular a tabela gastos, vc precisa obter o json e coloca-lo no diretorio onde esta rodando seu arquivo python)
+
+Caso prefira, você pode recriar o banco a partir do backup disponibilizado.
 
 O json para os gastos podem ser acessados atraves do arquivo zipado ou baixados no link: 
 https://dadosabertos.camara.leg.br/swagger/api.html#staticfile
