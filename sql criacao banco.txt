@@ -77,6 +77,7 @@ CREATE USER usuario_adm WITH superuser PASSWORD 'senha';
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.dep_discursos, public.dep_redes_social, public.deputados, public.gastos, public.partidos TO usuario_adm;
 GRANT SELECT ON public.dep_discursos, public.dep_redes_social, public.deputados, public.gastos, public.partidos TO usuario_consulta;
 
+CREATE INDEX nome_idx ON deputados (nome);
 
 SELECT * FROM deputados;
 SELECT * FROM dep_redes_social;
